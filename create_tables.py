@@ -33,15 +33,33 @@ class Question(db.Model):
     content = db.Column(db.String, nullable=False)
     kind = db.Column(db.Enum(TEXT, NUMERIC, BOOLEAN, name='question_kind'))
     survey_id = db.Column(db.Integer, db.ForeignKey('surveys.id'))
+    to_question_id = db.Column(db.Integer, db.ForeignKey('transitions.id'))
+    to_question = db.relationship('Transition', foreign_keys=[to_question_id], backref='question')
     answers = db.relationship('Answer', backref='question', lazy='dynamic')
 
     def __init__(self, content, kind=TEXT):
         self.content = content
         self.kind = kind
 
-    def next(self):
-        return self.survey.questions.filter(Question.id > self.id).order_by('id').first()
+    def next(self, session_id):
+        transition = self.transitions.filter(Transition.session_id == session_id).first()
+        if transition is not None:
+            return transition.to_question
+        else:
+            return self.survey.questions.filter(Question.id > self.id).order_by('id').first()
 
+class Transition(db.Model):
+    __tablename__ = 'transitions'
+
+    id = db.Column(db.Integer, primary_key=True)
+    from_question_id = db.Column(db.Integer, db.ForeignKey('questions.id'))
+    to_question_id = db.Column(db.Integer, db.ForeignKey('questions.id'))
+    session_id = db.Column(db.String, nullable=False)
+
+    from_question = db.relationship('Question', foreign_keys=[from_question_id],
+                                    backref=db.backref('outgoing_transitions', lazy='dynamic'))
+    to_question = db.relationship('Question', foreign_keys=[to_question_id],
+                                  backref=db.backref('incoming_transitions', lazy='dynamic'))
 
 class Answer(db.Model):
     __tablename__ = 'answers'
@@ -78,10 +96,26 @@ with app.app_context():
         survey = Survey(title=data['title'])
         db.session.add(survey)
 
+        # Create the question objects and add them to
+        # the survey and database, and create the transitions
+        question_map = {}
         for question_data in data['questions']:
             question = Question(content=question_data['body'], kind=question_data['type'])
             survey.questions.append(question)
             db.session.add(question)
+            question_map[question_data['name']] = question
+
+        for question_data in data['questions']:
+            # Create the transitions for this question
+            if 'transition' in question_data:
+                transition_data = question_data['transition']
+                if transition_data['next'] == "-":
+                    continue
+                from_question = question_map[question_data['name']]
+                to_question = question_map[transition_data['next']]
+                session_id = transition_data.get('session_id', '')
+                transition = Transition(from_question=from_question, to_question=to_question, session_id=session_id)
+                db.session.add(transition)
 
         db.session.commit()
 

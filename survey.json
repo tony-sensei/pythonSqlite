@@ -1,20 +1,394 @@
 {
   "questions": [
     {
-      "body": "What is your full name?",
-      "type": "text"
+      "name": "trigger",
+      "body": "Voor jy met assessering begin verduidelik die volgende: Hoekom doen jy dit Met wie doen jy dit Wat gaan jy doen",
+      "type": "text",
+      "transition": {"next": "agreement"}
     },
     {
-      "body": "Are you more than 21 years old?",
-      "type": "boolean"
+      "name": "agreement",
+      "body": "Versorger stem in om assessering te voltooi: JA  NEE",
+      "type": "boolean",
+      "transition":{"next": "choose"}
     },
     {
-      "body": "In a scale of 1-10, how would you rate Python?",
-      "type": "numeric"
+      "name": "choose",
+      "body": "Met watter vrae wil jy begin? SDQ (met versorger) IDELA (met kind)",
+      "type": "numeric",
+      "transition": {"next": "begin_sdq"}
     },
     {
-      "body": "Name a Python based framework you know about.",
-      "type": "text"
+      "name": "begin_sdq",
+      "body": "Kies SDQ: SDQ (met versorger)",
+      "type": "-",
+      "transition":{"next": "sdq_answer_options"}
+    },
+    {
+      "name": "sdq_answer_options",
+      "body": "1. Nie waar 2. Ietwat waar 3. Verseker waar",
+      "type": "numeric",
+      "transition":{"next": "sdq_question1"}
+    },
+    {
+      "name": "sdq_question1",
+      "body": "1. Rusteloos ooraktief kan nie vir lank stil sit of staan nie",
+      "type": "numeric",
+      "transition":{"next": "sdq_question2"}
+
+    },
+    {
+      "name": "sdq_question2",
+      "body": "2. Kla dikwels van hoofpyn maagpyn of naarheid",
+      "type": "numeric",
+      "transition":{"next": "sdq_question3"}
+    },
+    {
+      "name": "sdq_question3",
+      "body": "3.Het dikwels woedebuie of die humeur vlam op",
+      "type": "numeric",
+      "transition":{"next": "sdq_question4"}
+    },
+    {
+      "name": "sdq_question4",
+      "body": "4.Ietwat van h alleenloper - neig om alleen te speel",
+      "type": "numeric",
+      "transition":{"next": "sdq_question5"}
+    },
+    {
+      "name": "sdq_question5",
+      "body": "5. Gehoorsaam oor die algemeen - doen gewoonlik wat volwassenes vra",
+      "type": "numeric",
+      "transition":{"next": "sdq_question6"}
+    },
+    {
+      "name": "sdq_question6",
+      "body": "6. Baie bekommernisse - kom dikwels bekommerd voor",
+      "type": "numeric",
+       "transition":{"next": "sdq_question7"}
+    },
+    {
+      "name": "sdq_question7",
+      "body": "7. Konstant aan die vroetel of wriemel",
+      "type": "numeric",
+      "transition":{"next": "sdq_question8"}
+    },
+    {
+      "name": "sdq_question8",
+      "body": "8. Het ten minste een goeie vriend",
+      "type": "numeric",
+      "transition":{"next": "sdq_question9"}
+    },
+    {
+      "name": "sdq_question9",
+      "body": "9. Baklei dikwels met ander kinders of boelie hulle",
+      "type": "numeric",
+       "transition":{"next": "sdq_question10"}
+    },
+    {
+       "name": "sdq_question10",
+      "body": "10. Dikwels ongelukkig mismoedig of huilerig",
+      "type": "numeric",
+      "transition":{"next": "sdq_question11"}
+    },
+    {
+      "name": "sdq_question11",
+      "body": "11. Oor die algemeen hou ander kinders van hom/haar",
+      "type": "numeric",
+      "transition":{"next": "sdq_question12"}
+
+    },
+    {
+      "name": "sdq_question12",
+      "body": "12. Maklik afleibaar - konsentrasie dwaal",
+      "type": "numeric",
+      "transition":{"next": "sdq_question13"}
+    },
+    {
+       "name": "sdq_question13",
+      "body": "13. Senuweeagtig of klouerig in nuwe situasies - verloor maklik selfvertroue",
+      "type": "numeric",
+       "transition":{"next": "sdq_question14"}
+    },
+    {
+      "name": "sdq_question14",
+      "body": "14. Jok of kul dikwels",
+      "type": "numeric",
+      "transition":{"next": "sdq_question15"}
+    },
+    {
+       "name": "sdq_question15",
+      "body": "15. Word op gepik of geboelie deur ander kinders",
+      "type": "numeric",
+      "transition":{"next": "sdq_question16"}
+
+    },
+    {
+      "name": "sdq_question16",
+      "body": "16. Deurdink dinge voordat aksie geneem word",
+      "type": "numeric",
+      "transition":{"next": "sdq_question17"}
+    },
+    {
+       "name": "sdq_question17",
+      "body": "17. Steel van die huis skool of elders",
+      "type": "numeric",
+      "transition":{"next": "sdq_question18"}
+    },
+    {
+      "name": "sdq_question18",
+      "body": "18. Kom beter oor die weg met volwassenes as met ander kinders",
+      "type": "numeric",
+       "transition":{"next": "sdq_question19"}
+    },
+    {
+      "name": "sdq_question19",
+      "body": "19. Baie vrese raak maklik bang",
+      "type": "numeric",
+      "transition":{"next": "sdq_question20"}
+    },
+    {
+      "name": "sdq_question20",
+      "body": "20. Hou aan met take tot voltooing - goeie konsentrasie vermoëe",
+      "type": "numeric",
+       "transition":{"next": "choose_more_info"}
+    },
+    {
+      "name": "choose_more_info",
+      "body": "Meer inligting oor resultate Antwoord: JA",
+      "type": "boolean",
+      "transition":{"next": "more_info1"}
+    },
+    {
+      "name": "more_info1",
+      "body": "‘n Kind met EMOSIONELE uitdagings het dikwels hoofpyn - maagpyn of is siek.  Hulle bekommer hulself baie en kan dikwels hartseer wees of baie huil.  Hulle raak senuweeagtig en raak gou bang",
+      "type": "-",
+       "transition":{"next": "more_info2"}
+    },
+    {
+       "name": "more_info2",
+      "body": "‘n Kind met GEDRAGSUITDAGINGS kan dikwels ‘n vloermoer gooi of kwaad raak.  Hulle done baie keer nie wat hulle vertel word nie - hulle kan met ander kinders baklei of hulle boelie. Hulle jok baie of bedrieg baie",
+      "type": "-",
+      "transition":{"next": "more_info3"}
+
+    },
+    {
+      "name": "more_info3",
+      "body": "‘n HIPERAKTIEWE kind kan nie vir lank stilsit nie en is baie aktief.  Hulle vind dit moeilik om aandag aan iets te skenk.  Hulle dink nie voor hulle iets doen nie en begin ‘n taak en voltooi dit gewoonlik nie",
+      "type": "-",
+      "transition":{"next": "more_info4"}
+    },
+    {
+      "name": "more_info4",
+      "body": "‘n Kind met PORTUURGROEP uitdagings hou daarvan om alleen te speel.  Hulle het nie goeie vriende nie en hulle kom beter klaar met volwassenes as met ander kinders.  Ander kinders hou gewoonlik nie van hulle nie - hulle kan geboelie word deur ander kinders.",
+      "type": "",
+      "transition":{"next": "concerns"}
+    },
+    {
+      "name": "concerns",
+      "body": "Gabasseer op die vrae - het jy enige bekommernis oor jou kind se geestelike welstand? EMOSIONELE uitdagings GEDRAGSUITDAGINGS HIPERAKTIWITEIT PORTUURGROEP uitdagings",
+      "type": "numeric",
+      "transition":{"next": "ideala"}
+    },
+    {
+      "name": "ideala",
+      "body": "Kies IDELA: IDELA (met kind)",
+      "type": "-",
+      "transition":{"next": "warmup_questions"}
+    },
+    {
+      "name": "warmup_questions",
+      "body": "Vra eers die kind die volgende vrae om hulle gemaklik te laat voel [antwoorde hoef nie opgeneem te word nie]: Wat is jou gunsteling: Kleur? Dier? TV program?",
+      "type": "-",
+       "transition":{"next": "idea_question1"}
+
+    },
+    {
+      "name": "idea_question1",
+      "body": "1. Wat is jou naam en van?",
+      "type": "text",
+       "transition":{"next": "idea_question2"}
+    },
+    {
+      "name": "idea_question2",
+      "body": "2. Asseblief vertel vir my hoe oud jy is",
+      "type": "text",
+       "transition":{"next": "idea_question3"}
+    },
+    {
+       "name": "idea_question3",
+      "body": "3. Is jy ‘n seuntjie of ‘n meisie?",
+      "type": "text",
+       "transition":{"next": "idea_question4"}
+    },
+    {
+       "name": "idea_question4",
+      "body": "4.  Asseblief vertel vir my die naam van een persoon wat na jou kyk by die huis",
+      "type": "text",
+      "transition":{"next": "idea_question5"}
+    },
+    {
+      "name": "idea_question5",
+      "body": "5. Asseblief vertel vir my die naam van die gemeenskap waarin jy bly",
+      "type": "text",
+      "transition":{"next": "idea_question6"}
+    },
+    {
+      "name": "idea_question6",
+      "body": "6. In watse land bly jy?",
+      "type": "text",
+      "transition":{"next": "idea_question7"}
+    },
+    {
+      "name": "idea_question7",
+      "body": "7. Met wie speel jy graag? Vertel my jou maatjies se name?",
+      "type": "text",
+       "transition":{"next": "idea_question8"}
+    },
+    {
+       "name": "idea_question8",
+      "body": "8. Dink so ’n bietjie en sê vir my wat jou hartseer laat voel?",
+      "type": "text",
+      "transition":{"next": "idea_question9"}
+    },
+    {
+      "name": "idea_question9",
+      "body": "9. Wat doen jy om beter te voel as jy hartseer is?",
+      "type": "text",
+       "transition":{"next": "idea_question10"}
+    },
+    {
+      "name": "idea_question10",
+      "body": "10. Wat doen jy nóg om beter te voel as jy hartseer is?",
+      "type": "text",
+       "transition":{"next": "idea_question11"}
+    },
+    {
+      "name": "idea_question11",
+      "body": "11.  Vertel my nou maak jou gelukkig?",
+      "type": "text",
+      "transition":{"next": "idea_question12"}
+    },
+    {
+      "name": "idea_question12",
+      "body": "12. Kyk na hierdie prentjie. Hoe dink jy voel hierdie kind op die oomblik?",
+      "type": "text",
+       "transition":{"next": "idea_question13"}
+    },
+    {
+      "name": "idea_question13",
+      "body": "13. Wat sou jy doen om haar beter te laat voel?",
+      "type": "text",
+      "transition":{"next": "idea_question14"}
+    },
+    {
+      "name": "idea_question14",
+      "body": "14. Is daar nog iets wat jy kan doen om haar beter te laat voel?",
+      "type": "text",
+      "transition":{"next": "idea_question15"}
+    },
+    {
+      "name": "idea_question15",
+      "body": "15. Verbeel jou jy speel met jou mees gunsteling speelding/speelgoed - maar - iemand anders wil ook met die selle speelding/speelgoed speel. Wat sal jy doen?",
+      "type": "text",
+      "transition":{"next": "idea_question16"}
+    },
+    {
+      "name": "idea_question16",
+      "body": "16. Is daar nog iets wat jy sou doen?",
+      "type": "text",
+       "transition":{"next": "more_info_ideala"}
+    },
+    {
+       "name": "more_info_ideala",
+      "body": "Meer inligting oor resultate Antwoord: JA",
+      "type": "boolean",
+      "transition":{"next": "more_info_ideala1"}
+    },
+    {
+       "name": "more_info_ideala1",
+      "body": "SELFBEWUSTHEID:  Die kind weet goed soos hulle naam/ ouderdom/woonbuurt",
+      "type": "-",
+       "transition":{"next": "more_info_ideala2"}
+    },
+    {
+       "name": "more_info_ideala2",
+      "body": "VRIENDE:  Die kind kan die name van hulle viende noem waarmee hulle hou om mee te speel",
+      "type": "-",
+       "transition":{"next": "more_info_ideala3"}
+    },
+    {
+      "name": "more_info_ideala3",
+      "body": "EMOSIONELE BEWUSTHEID:  Die kind kan sê wat hulle gelukkig or hartseer maak en hulle kan hulself beter laat voel",
+      "type": "-",
+      "transition":{"next": "more_info_ideala4"}
+    },
+    {
+       "name": "more_info_ideala4",
+      "body": "EMPATIE:  Die kind kan sien as iemand anders hartseer is en weet wat om te doen om hulle beter te laat voel",
+      "type": "-",
+       "transition":{"next": "more_info_ideala5"}
+    },
+    {
+       "name": "more_info_ideala5",
+      "body": "OPLOS VAN KONFLIK:  Die kind kan sê wat hulle sal doen om konflik te vermy (bv. Deel)",
+      "type": "-",
+      "transition":{"next": "concerns_after_ideala"}
+    },
+    {
+      "name": "concerns_after_ideala",
+      "body": "Gebasseer op die vrae - het jy enige bekommernis oor jou kind se sosiale en emosionele ontwikkeling? SELFBEWUSTHEID/VRIENDE/EMOSIONELE BEWUSTHEID/EMPATIE/OPLOS VAN KONFLIK",
+      "type": "numeric",
+      "transition":{"next": "info_and_tips"}
+    },
+    {
+       "name": "info_and_tips",
+      "body": "Sou u meer inligting en wenke wou hê? SELFBEWUSTHEID/VRIENDE/EMOSIES/SOSIALE vaardighede/MOEILIKE gedrag/GESONDE gewoontes en roetines",
+      "type": "numeric",
+       "transition":{"next": "sending_method"}
+    },
+    {
+      "name": "sending_method",
+      "body": "Hoe wil jy hê dit moet vir jou gestuur word? 1. TEKS 2.FOTO 3. STEM BOODSKAP 4. VIDEO",
+      "type": "numeric",
+      "transition":{"next": "thank_you"}
+    },
+    {
+      "name": "thank_you",
+      "body": "Bedank die versorger en kind",
+      "type": "-",
+      "transition":{"next": "still_need_assess"}
+    },
+    {
+      "name": "still_need_assess",
+      "body": "Moet jy nog ‘n assessering voltooi? 1. SDQ 2. IDELA 3. Assesserings VOLTOOI",
+      "type": "",
+      "transition":{"next": "concern_level"}
+    },
+    {
+      "name": "concern_level",
+      "body": "Het JY enige bekommernis oor die kind? 1. GEEN bekommernis 2. BIETJIE bekommerd 3.BAIE bekommerd",
+      "type": "numeric",
+      "transition":{"next": "referral_criteria"}
+    },
+    {
+       "name": "referral_criteria",
+      "body": "Verwysings kriteria: 1. Die kind se VERSORGER is BAIE BEKOMMERD 2. JY is BAIE BEKOMMERD. Die kind het ROOI punte behaal op van die vrae. Indien die kind voldoen aan die 3 kriteria - praat met jou toesighouer/spanleier",
+      "type": "numeric",
+      "transition":{"next": "done_or_not"}
+
+    },
+    {
+      "name": "done_or_not",
+      "body": "Is jy klaar? Antwoord: JA",
+      "type": "boolean",
+      "transition":{"next": "final"}
+    },
+    {
+      "name": "final",
+      "body": "Om met die volgende assessering met ‘n ander versorger en kind te begin tik “Hello” in die kletsboks",
+      "type": "text",
+      "transition":{"next": "-"}
     }
   ],
   "title": "Flask"
