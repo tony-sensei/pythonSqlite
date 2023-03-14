@@ -7,3 +7,6 @@ python3 create_tables.py
 
 3. running check_tables.py by
 python3 check_tables.py
+
+4. ans_present.ipynb contains the distribution of the answers
+
