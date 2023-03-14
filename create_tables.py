@@ -3,9 +3,12 @@ import json
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///testDatabase.db'
+
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///testDatabase.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://testuser:Testingdatabase@54.184.119.77:5432/testDatabase'
 
 db = SQLAlchemy(app)
+
 
 class Survey(db.Model):
     __tablename__ = 'surveys'
@@ -48,6 +51,7 @@ class Question(db.Model):
         else:
             return self.survey.questions.filter(Question.id > self.id).order_by('id').first()
 
+
 class Transition(db.Model):
     __tablename__ = 'transitions'
 
@@ -60,6 +64,7 @@ class Transition(db.Model):
                                     backref=db.backref('outgoing_transitions', lazy='dynamic'))
     to_question = db.relationship('Question', foreign_keys=[to_question_id],
                                   backref=db.backref('incoming_transitions', lazy='dynamic'))
+
 
 class Answer(db.Model):
     __tablename__ = 'answers'
@@ -84,39 +89,38 @@ class Answer(db.Model):
         self.session_id = session_id
 
 
-with app.app_context():
-    # Create tables in the db
-    db.create_all()
+if __name__ == '__main__':
+    with app.app_context():
+        # Create tables in the db
+        db.create_all()
 
-    # Load the JSON data from a file
-    with open('survey.json') as survey_file:
-        data = json.load(survey_file)
+        # Load the JSON data from a file
+        with open('survey.json') as survey_file:
+            data = json.load(survey_file)
 
-        # Create the survey and question objects and add them to the database
-        survey = Survey(title=data['title'])
-        db.session.add(survey)
+            # Create the survey and question objects and add them to the database
+            survey = Survey(title=data['title'])
+            db.session.add(survey)
 
-        # Create the question objects and add them to
-        # the survey and database, and create the transitions
-        question_map = {}
-        for question_data in data['questions']:
-            question = Question(content=question_data['body'], kind=question_data['type'])
-            survey.questions.append(question)
-            db.session.add(question)
-            question_map[question_data['name']] = question
+            # Create the question objects and add them to
+            # the survey and database, and create the transitions
+            question_map = {}
+            for question_data in data['questions']:
+                question = Question(content=question_data['body'], kind=question_data['type'])
+                survey.questions.append(question)
+                db.session.add(question)
+                question_map[question_data['name']] = question
 
-        for question_data in data['questions']:
-            # Create the transitions for this question
-            if 'transition' in question_data:
-                transition_data = question_data['transition']
-                if transition_data['next'] == "-":
-                    continue
-                from_question = question_map[question_data['name']]
-                to_question = question_map[transition_data['next']]
-                session_id = transition_data.get('session_id', '')
-                transition = Transition(from_question=from_question, to_question=to_question, session_id=session_id)
-                db.session.add(transition)
+            for question_data in data['questions']:
+                # Create the transitions for this question
+                if 'transition' in question_data:
+                    transition_data = question_data['transition']
+                    if transition_data['next'] == "-":
+                        continue
+                    from_question = question_map[question_data['name']]
+                    to_question = question_map[transition_data['next']]
+                    session_id = transition_data.get('session_id', '')
+                    transition = Transition(from_question=from_question, to_question=to_question, session_id=session_id)
+                    db.session.add(transition)
 
-        db.session.commit()
-
-
+            db.session.commit()
