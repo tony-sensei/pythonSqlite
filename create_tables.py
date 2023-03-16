@@ -1,10 +1,12 @@
 from flask import Flask
 import json
 from flask_sqlalchemy import SQLAlchemy
+from generate_url import database_url
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///testDatabase.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///testDatabase.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 
 db = SQLAlchemy(app)
 
@@ -105,6 +107,8 @@ if __name__ == '__main__':
             # the survey and database, and create the transitions
             question_map = {}
             for question_data in data['questions']:
+                if question_data['type'] == "" or question_data['type'] == "-":
+                    question_data['type'] = None
                 question = Question(content=question_data['body'], kind=question_data['type'])
                 survey.questions.append(question)
                 db.session.add(question)
