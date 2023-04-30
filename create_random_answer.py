@@ -54,11 +54,11 @@ for i in range(num_of_participants):
 field_names = ['id', 'phone', 'child_id', 'name', 'score', 'light']
 
 # Check if the file exists, and delete it if it does
-if os.path.exists('data.csv'):
-    os.remove('data.csv')
+if os.path.exists('datasets/data.csv'):
+    os.remove('datasets/data.csv')
 
 # Write the data to a CSV file
-with open('data.csv', mode='w', newline='') as file:
+with open('datasets/data.csv', mode='w', newline='') as file:
     writer = csv.writer(file)
     # Write the column names
     writer.writerow(field_names)

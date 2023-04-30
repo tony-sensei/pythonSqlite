@@ -12,3 +12,16 @@ do the following
 
 4. ans_present.ipynb contains the distribution of the answers
 
+# Data Analysis
+1. the raw data is `datasets/testData1.csv`
+
+2. use `datasets/testData1.csv` as the dataset for time series
+
+3. run `latest_entry_generator.py` for getting the modified dataset 
+`datasets/latest_scores.csv` from `data/testData1.csv` for get the 
+latest entries for heatmap:
+```bash
+python3 latest_entry_generator.py
+```
+
+4. follow instructions in `ans_present.ipynb`
