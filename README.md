@@ -24,4 +24,6 @@ latest entries for heatmap:
 python3 latest_entry_generator.py
 ```
 
-4. follow instructions in `ans_present.ipynb`
+4. follow instructions in `ans_present.ipynb`,
+`datasets/data_with_clusters.csv` will be generated for heatmap and 
+clustering.
